@@ -14,7 +14,7 @@ function App() {
 
   const [showToken, setShowToken] = useState(0)
   const [userAccount, setUserAccount] = useState('')
-  const [TokenAmount, setTokenAmount] = useState(0)
+  const [tokenAmount, setTokenAmount] = useState('')
 
   useEffect(() => {
     const init = async () => {
@@ -58,6 +58,7 @@ function App() {
       const transaction = await contract.addBalance(amount)
 
       await transaction.wait()
+      console.log(`${amount} Ethers (in wei) successfully added`)
       setPoolValue('')
       getPoolBalance()
     }
@@ -74,7 +75,7 @@ function App() {
       const transaction = await contract.withdraw(amount)
 
       await transaction.wait()
-      console.log(`${amount} Ethers successfully withdraw`)
+      console.log(`${amount} Ethers (in wei) successfully withdrawn`)
       setWithdrawAmount('')
       getPoolBalance()
     }
@@ -88,21 +89,24 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const contract = new ethers.Contract(orangeAddress, Token.abi, provider)
       const balance = await contract.balanceOf(account)
-      console.log('Token balance: ', balance.toString())
+      console.log('Orange balance: ', balance.toString())
       setShowToken(balance.toString())
     }
   }
 
   async function sendToken() {
-    if (!userAccount || !TokenAmount) return
+    if (!userAccount || !tokenAmount) return
     if (typeof window.ethereum !== 'undefined') {
       await requestAccount()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const contract = new ethers.Contract(orangeAddress, Token.abi, signer)
-      const transaction = await contract.transfer(userAccount, TokenAmount)
+      const transaction = await contract.transfer(userAccount, tokenAmount)
+
       await transaction.wait()
-      console.log(`${TokenAmount} Tokens successfully sent to ${userAccount}`)
+      console.log(`${tokenAmount} Orange successfully sent to ${userAccount}`)
+      setUserAccount('')
+      setTokenAmount('')
       getTokenBalance()
     }
   }
@@ -116,14 +120,14 @@ function App() {
         <br />
         <input
           onChange={(e) => setPoolValue(e.target.value)}
-          placeholder="Amount"
+          placeholder="Amount of Ethers in wei"
           value={poolValue}
         />
         <button onClick={addToPool}>Add to Pool</button>
         <br />
         <input
           onChange={(e) => setWithdrawAmount(e.target.value)}
-          placeholder="Amount"
+          placeholder="Amount of Ethers in wei"
           value={withdrawAmount}
         />
         <button onClick={withdrawFromPool}>Withdraw</button>
@@ -133,10 +137,12 @@ function App() {
         <input
           onChange={(e) => setUserAccount(e.target.value)}
           placeholder="To address"
+          value={userAccount}
         />
         <input
           onChange={(e) => setTokenAmount(e.target.value)}
           placeholder="Amount"
+          value={tokenAmount}
         />
         <button onClick={sendToken}>Send Oranges</button>
       </header>
