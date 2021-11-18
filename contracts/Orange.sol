@@ -36,7 +36,7 @@ interface IERC20 {
 contract Orange is IERC20 {
     string public name = "Orange";
     string public symbol = "OGE";
-    uint8 public decimals = 18;
+    uint8 public decimals = 0;
     //uint256 public  totalSupply = 1000000;
 
     mapping(address => uint256) balances;

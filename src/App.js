@@ -4,8 +4,8 @@ import './App.css'
 import Pool from './artifacts/contracts/Pool.sol/Pool.json'
 import Token from './artifacts/contracts/Orange.sol/Orange.json'
 
-const poolAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-const tokenAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+const poolAddress = '0xF0D41406B27fBA72830270De388352bEC5543a54'
+const orangeAddress = '0x52E82Fe129776D7E12d3E8f4f9725Bf675f46c87'
 
 function App() {
   const [showPool, setShowPool] = useState(0)
@@ -86,7 +86,7 @@ function App() {
         method: 'eth_requestAccounts',
       })
       const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const contract = new ethers.Contract(tokenAddress, Token.abi, provider)
+      const contract = new ethers.Contract(orangeAddress, Token.abi, provider)
       const balance = await contract.balanceOf(account)
       console.log('Token balance: ', balance.toString())
       setShowToken(balance.toString())
@@ -99,7 +99,7 @@ function App() {
       await requestAccount()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
-      const contract = new ethers.Contract(tokenAddress, Token.abi, signer)
+      const contract = new ethers.Contract(orangeAddress, Token.abi, signer)
       const transaction = await contract.transfer(userAccount, TokenAmount)
       await transaction.wait()
       console.log(`${TokenAmount} Tokens successfully sent to ${userAccount}`)
@@ -127,8 +127,8 @@ function App() {
           value={withdrawAmount}
         />
         <button onClick={withdrawFromPool}>Withdraw</button>
-        <p>Token balance: {showToken}</p>
-        <button onClick={getTokenBalance}>Check Token Balance</button>
+        <p>Orange balance: {showToken}</p>
+        <button onClick={getTokenBalance}>Check Orange Balance</button>
         <br />
         <input
           onChange={(e) => setUserAccount(e.target.value)}
@@ -138,7 +138,7 @@ function App() {
           onChange={(e) => setTokenAmount(e.target.value)}
           placeholder="Amount"
         />
-        <button onClick={sendToken}>Send Tokens</button>
+        <button onClick={sendToken}>Send Oranges</button>
       </header>
     </div>
   )
