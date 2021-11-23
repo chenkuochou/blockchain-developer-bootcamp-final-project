@@ -31,18 +31,13 @@ function App() {
   async function getPoolBalance() {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
-      //console.log({ provider })
       const contract = new ethers.Contract(poolAddress, Pool.abi, provider)
-      try {
-        const data = await contract.getContractBalance()
+      const data = await contract.getBalance()
 
-        const amount = ethers.utils.formatEther(data)
-        setShowPool(amount)
+      const amount = ethers.utils.formatEther(data)
 
-        console.log('Pool balance: ', amount)
-      } catch (err) {
-        console.log('Error: ', err)
-      }
+      console.log('Pool balance: ', amount)
+      setShowPool(amount.toString())
     }
   }
 
@@ -51,14 +46,13 @@ function App() {
     if (typeof window.ethereum !== 'undefined') {
       await requestAccount()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
-      // console.log({ provider })
       const signer = provider.getSigner()
       const contract = new ethers.Contract(poolAddress, Pool.abi, signer)
       const amount = ethers.utils.parseEther(poolValue)
       const transaction = await contract.addBalance(amount)
 
       await transaction.wait()
-      console.log(`${amount} Ethers (in wei) successfully added`)
+      console.log(`${poolValue} Ethers (in wei) successfully added`)
       setPoolValue('')
       getPoolBalance()
     }
@@ -75,7 +69,7 @@ function App() {
       const transaction = await contract.withdraw(amount)
 
       await transaction.wait()
-      console.log(`${amount} Ethers (in wei) successfully withdrawn`)
+      console.log(`${withdrawAmount} Ethers (in wei) successfully withdrawn`)
       setWithdrawAmount('')
       getPoolBalance()
     }
@@ -115,9 +109,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <p>Pool balance: {showPool}</p>
-        {/* <button onClick={getPool}>Get Pool Balance</button> */}
-        <button onClick={getTokenBalance}>Check Balance</button>
-        <br />
+        {/* <button onClick={getPoolBalance}>Your Pool Balance</button> */}
         <input
           onChange={(e) => setPoolValue(e.target.value)}
           placeholder="Amount of Ethers in wei"
@@ -131,9 +123,9 @@ function App() {
           value={withdrawAmount}
         />
         <button onClick={withdrawFromPool}>Withdraw</button>
-        <p>Orange balance: {showToken}</p>
-        <button onClick={getTokenBalance}>Check Orange Balance</button>
         <br />
+        <p>Orange balance: {showToken}</p>
+        {/* <button onClick={getTokenBalance}>Your Oranges</button> */}
         <input
           onChange={(e) => setUserAccount(e.target.value)}
           placeholder="To address"

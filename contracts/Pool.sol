@@ -2,13 +2,14 @@
 pragma solidity 0.8.4;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+
+//import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title  A conotract to depoit and withdraw ETH
 /// @author Chen-kuo Chou
 /// @notice Depoits, withdraws and check ETH balance
 /// @dev    A simple bank that safely processes payments
-contract Pool is Ownable {
+contract Pool {
     uint256 totalContractBalance = 0;
     mapping(address => uint256) balances; // user ETH in wei
 
@@ -22,7 +23,7 @@ contract Pool is Ownable {
     /// @param  _amount ETH amount to add
     /// @return True for successful transaction
     function addBalance(uint256 _amount) public payable returns (bool) {
-        balances[msg.sender] = _amount;
+        balances[msg.sender] += _amount;
         totalContractBalance += _amount;
         return true;
     }
