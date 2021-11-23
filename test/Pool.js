@@ -7,7 +7,7 @@ describe('Pool', function () {
 
   beforeEach(async () => {
     Pool = await ethers.getContractFactory('Pool')
-    pool = await Pool.deploy()
+    pool = await Pool.deploy('0x5FbDB2315678afecb367f032d93F642f64180aa3')
     ;[owner, addr1, addr2, _] = await ethers.getSigners()
   })
 

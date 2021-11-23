@@ -96,6 +96,19 @@ contract Orange is IERC20, Ownable {
         return allowed[owner][spender];
     }
 
+    /// @dev    Sets up the amount for spender
+    /// @param  spender spends the amount of owner's tokens
+    /// @return True for successful transaction
+    function approve(address spender, uint256 amount)
+        public
+        override
+        returns (bool)
+    {
+        allowed[msg.sender][spender] = amount;
+        emit Approval(msg.sender, spender, amount);
+        return true;
+    }
+
     /// @dev    Similar to {transfer} but transfers tokens from a sender to recipient
     /// @param  amount from sender to recipient
     /// @return True for successful transaction
@@ -114,16 +127,11 @@ contract Orange is IERC20, Ownable {
         return true;
     }
 
-    /// @dev    Sets up the amount for spender
-    /// @param  spender spends the amount of owner's tokens
-    /// @return True for successful transaction
-    function approve(address spender, uint256 amount)
-        public
-        override
-        returns (bool)
-    {
-        allowed[msg.sender][spender] = amount;
-        emit Approval(msg.sender, spender, amount);
-        return true;
+    function _mint(address account, uint256 amount) public {
+        require(account != address(0), "ERC20: mint to the zero address");
+
+        totalSupply_ += amount;
+        balances[account] += amount;
+        emit Transfer(address(0), account, amount);
     }
 }

@@ -13,6 +13,12 @@ contract Pool is Ownable {
     uint256 totalContractBalance = 0;
     mapping(address => uint256) balances; // user ETH in wei
 
+    address public orange;
+
+    constructor(address orangeAddress) {
+        orange = orangeAddress;
+    }
+
     /// @notice Gets the totle ETH in this pool
     /// @return Returns totalContractBalance
     function getContractBalance() public view returns (uint256) {
@@ -55,8 +61,16 @@ contract Pool is Ownable {
 
     /// @notice User can buy Orange from ETH balance in this pool
     /// @dev    Swaps Orange with user's ETH in this pool
-    function swap(uint256 _swapAmount) public payable returns (bool success) {
-        // TODO: swap ETH from this Pool to Orange
+    function swap(uint256 _swapAmount) public payable returns (bool) {
+        require(_swapAmount <= getBalance(), "Overdrawn");
+
+        balances[msg.sender] -= _swapAmount;
+        totalContractBalance -= _swapAmount;
+
+        Orange o = Orange(orange);
+        o._mint(msg.sender, _swapAmount);
+
+        return true;
     }
 
     /// @dev    a callback function
