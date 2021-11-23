@@ -2,14 +2,14 @@
 pragma solidity 0.8.4;
 
 import "hardhat/console.sol";
-
-//import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Orange.sol";
 
 /// @title  A conotract to depoit and withdraw ETH
 /// @author Chen-kuo Chou
 /// @notice Depoits, withdraws and check ETH balance
 /// @dev    A simple bank that safely processes payments
-contract Pool {
+contract Pool is Ownable {
     uint256 totalContractBalance = 0;
     mapping(address => uint256) balances; // user ETH in wei
 

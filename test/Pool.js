@@ -20,12 +20,14 @@ describe('Pool', function () {
   describe('Transactions', function () {
     it('Should return contract balance from addBalance', async function () {
       await pool.addBalance(1)
-      expect(await pool.getContractBalance()).to.equal(initalBalance + 1)
+      await pool.addBalance(3)
+      expect(await pool.getContractBalance()).to.equal(initalBalance + 4)
     })
 
     it('Should return user balance from addBalance', async function () {
       await pool.addBalance(11)
-      expect(await pool.getBalance()).to.equal(11)
+      await pool.addBalance(2)
+      expect(await pool.getBalance()).to.equal(13)
     })
 
     it('Should withdrawSomeBalance', async function () {

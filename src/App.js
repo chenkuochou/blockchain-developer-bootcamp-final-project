@@ -108,7 +108,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Pool balance: {showPool}</p>
+        <p>Your Pool Balance: {showPool}</p>
         {/* <button onClick={getPoolBalance}>Your Pool Balance</button> */}
         <input
           onChange={(e) => setPoolValue(e.target.value)}
@@ -124,7 +124,7 @@ function App() {
         />
         <button onClick={withdrawFromPool}>Withdraw</button>
         <br />
-        <p>Orange balance: {showToken}</p>
+        <p>Your Oranges: {showToken}</p>
         {/* <button onClick={getTokenBalance}>Your Oranges</button> */}
         <input
           onChange={(e) => setUserAccount(e.target.value)}
