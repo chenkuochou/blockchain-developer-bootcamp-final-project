@@ -49,9 +49,7 @@ describe('Pool', function () {
       await pool
         .connect(addr2)
         .addBalance(10, { value: ethers.utils.parseUnits('10', 'wei') })
-      await pool
-        .connect(addr2)
-        .buyOrange(3, { value: ethers.utils.parseUnits('3', 'wei') })
+      await pool.connect(addr2).buyOrange(3)
       expect(await pool.connect(addr2).getBalance()).to.equal(7)
     })
 

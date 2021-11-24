@@ -56,7 +56,7 @@ function App() {
       const contract = new ethers.Contract(poolAddress, Pool.abi, signer)
       // const amount = ethers.utils.parseEther(poolValue)
       const transaction = await contract.addBalance(poolValue, {
-        value: ethers.utils.parseUnits(poolValue, 'wei'),
+        value: ethers.utils.parseEther(poolValue, 'wei'),
       })
 
       await transaction.wait()
@@ -75,7 +75,7 @@ function App() {
       const contract = new ethers.Contract(poolAddress, Pool.abi, signer)
       // const amount = ethers.utils.parseEther(withdrawAmount)
       const transaction = await contract.withdraw(withdrawAmount, {
-        value: ethers.utils.parseUnits(withdrawAmount, 'wei'),
+        value: ethers.utils.parseEther(withdrawAmount, 'wei'),
       })
 
       await transaction.wait()

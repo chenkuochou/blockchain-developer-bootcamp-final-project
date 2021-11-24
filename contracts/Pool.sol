@@ -61,7 +61,7 @@ contract Pool is Ownable {
     /// @dev    Buys Orange with user's ETH in this pool
     /// @param  swapAmount ETH amount to buy Orange tokens
     /// @return success for successful transaction
-    function buyOrange(uint256 swapAmount) public payable returns (bool) {
+    function buyOrange(uint256 swapAmount) public returns (bool) {
         require(swapAmount <= getBalance(), "Overdrawn");
 
         balances[msg.sender] -= swapAmount;
