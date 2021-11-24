@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import './App.css'
+import bg from './bg01.jpg'
 import Pool from './artifacts/contracts/Pool.sol/Pool.json'
 import Token from './artifacts/contracts/Orange.sol/Orange.json'
 
-const poolAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-const orangeAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+const orangeAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+const poolAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
 
 function App() {
   const [showPool, setShowPool] = useState(0)
@@ -15,6 +16,8 @@ function App() {
   const [showToken, setShowToken] = useState(0)
   const [userAccount, setUserAccount] = useState('')
   const [tokenAmount, setTokenAmount] = useState('')
+
+  const [buyAmount, setBuyAmount] = useState('')
 
   useEffect(() => {
     const init = async () => {
@@ -33,7 +36,6 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const contract = new ethers.Contract(poolAddress, Pool.abi, provider)
       const data = await contract.getBalance()
-
       const amount = ethers.utils.formatEther(data)
 
       console.log('Pool balance: ', amount)
@@ -52,7 +54,7 @@ function App() {
       const transaction = await contract.addBalance(amount)
 
       await transaction.wait()
-      console.log(`${poolValue} Ethers (in wei) successfully added`)
+      console.log(`${poolValue} Ethers (in wei) are successfully added.`)
       setPoolValue('')
       getPoolBalance()
     }
@@ -69,9 +71,28 @@ function App() {
       const transaction = await contract.withdraw(amount)
 
       await transaction.wait()
-      console.log(`${withdrawAmount} Ethers (in wei) successfully withdrawn`)
+      console.log(
+        `${withdrawAmount} Ethers (in wei) are successfully withdrawn.`,
+      )
       setWithdrawAmount('')
       getPoolBalance()
+    }
+  }
+
+  async function buyOrange() {
+    if (!buyAmount) return
+    if (typeof window.ethereum !== 'undefined') {
+      await requestAccount()
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(poolAddress, Pool.abi, signer)
+      const transaction = await contract.buyOrange(buyAmount)
+
+      await transaction.wait()
+      console.log(`${buyAmount} orange(s) are successfully bought.`)
+      setBuyAmount('')
+      getPoolBalance()
+      getTokenBalance()
     }
   }
 
@@ -83,6 +104,7 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const contract = new ethers.Contract(orangeAddress, Token.abi, provider)
       const balance = await contract.balanceOf(account)
+
       console.log('Orange balance: ', balance.toString())
       setShowToken(balance.toString())
     }
@@ -98,7 +120,9 @@ function App() {
       const transaction = await contract.transfer(userAccount, tokenAmount)
 
       await transaction.wait()
-      console.log(`${tokenAmount} Orange successfully sent to ${userAccount}`)
+      console.log(
+        `${tokenAmount} orange(s) are successfully sent to ${userAccount}`,
+      )
       setUserAccount('')
       setTokenAmount('')
       getTokenBalance()
@@ -107,8 +131,15 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Your Pool Balance: {showPool}</p>
+      <header
+        className="App-header"
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundSize: 'cover',
+        }}
+      >
+        <h2>Welcome to Orange Village!</h2>
+        <p>Your Pool ETH Balance: {showPool}</p>
         {/* <button onClick={getPoolBalance}>Your Pool Balance</button> */}
         <input
           onChange={(e) => setPoolValue(e.target.value)}
@@ -124,6 +155,14 @@ function App() {
         />
         <button onClick={withdrawFromPool}>Withdraw</button>
         <br />
+        <small>Buy Oranges from Your Pool (1 wei ETH to 1 Orange)</small>
+        <br />
+        <input
+          onChange={(e) => setBuyAmount(e.target.value)}
+          placeholder="Amount of Ethers in wei"
+          value={buyAmount}
+        />
+        <button onClick={buyOrange}>Buy Oranges</button>
         <p>Your Oranges: {showToken}</p>
         {/* <button onClick={getTokenBalance}>Your Oranges</button> */}
         <input

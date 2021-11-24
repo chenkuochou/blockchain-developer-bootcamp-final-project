@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.8.4;
+pragma solidity 0.8.10;
 
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -59,9 +59,11 @@ contract Pool is Ownable {
         if (success) return true;
     }
 
-    /// @notice User can buy Orange from ETH balance in this pool
-    /// @dev    Swaps Orange with user's ETH in this pool
-    function swap(uint256 _swapAmount) public payable returns (bool) {
+    /// @notice User can buy Orange from this pool
+    /// @dev    Buys Orange with user's ETH in this pool
+    /// @param  _swapAmount ETH amount to buy Orange tokens
+    /// @return success for successful transaction
+    function buyOrange(uint256 _swapAmount) public returns (bool) {
         require(_swapAmount <= getBalance(), "Overdrawn");
 
         balances[msg.sender] -= _swapAmount;
@@ -73,6 +75,6 @@ contract Pool is Ownable {
         return true;
     }
 
-    /// @dev    a callback function
+    /// @dev    a fallback function
     receive() external payable {}
 }
