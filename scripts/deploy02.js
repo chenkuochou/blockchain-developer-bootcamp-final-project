@@ -6,16 +6,11 @@ async function main() {
   console.log('Deploying contracts with the account:', deployer.address)
 
   const Pool = await hre.ethers.getContractFactory('Pool')
-  const pool = await Pool.deploy('0x5FbDB2315678afecb367f032d93F642f64180aa3')
-
-  // const Orange = await hre.ethers.getContractFactory('Orange')
-  // const orange = await Orange.deploy()
+  const pool = await Pool.deploy('0xA99cAc3717b6a19D55cf331B9ebF455daf1aa09B')
 
   await pool.deployed()
-  // await orange.deployed()
 
   console.log('Pool deployed to:', pool.address)
-  // console.log('Orange deployed to:', orange.address)
 }
 
 main()

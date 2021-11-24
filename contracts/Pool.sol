@@ -10,11 +10,17 @@ import "./Orange.sol";
 /// @notice Depoits, withdraws and check ETH balance
 /// @dev    A simple bank that safely processes payments
 contract Pool is Ownable {
+    /// @dev Sets up intitial contract balance to be 0
     uint256 totalContractBalance = 0;
-    mapping(address => uint256) balances; // user ETH in wei
 
+    /// @dev Returns ETH balance in wei
+    mapping(address => uint256) balances;
+
+    /// @dev Points to Orange.sol address
     address public orange;
 
+    /// @dev    Sets up Orange.sol address when deploy
+    /// @param  orangeAddress deployed Orange.sol address
     constructor(address orangeAddress) {
         orange = orangeAddress;
     }
@@ -42,35 +48,27 @@ contract Pool is Ownable {
 
     /// @notice User add ETH in this pool
     /// @param  _withdrawAmount ETH amount to add
-    /// @return success for successful transaction
-    function withdraw(uint256 _withdrawAmount)
-        public
-        payable
-        returns (bool success)
-    {
+    function withdraw(uint256 _withdrawAmount) public payable {
         require(_withdrawAmount <= getBalance(), "Overdrawn");
         balances[msg.sender] -= _withdrawAmount;
         totalContractBalance -= _withdrawAmount;
 
-        (success, ) = msg.sender.call{value: _withdrawAmount}("");
-        // require(sent, "Failed to withdraw");
-        // console.log("Sender balance is %s", balances[msg.sender]);
-
-        if (success) return true;
+        (bool sent, ) = msg.sender.call{value: _withdrawAmount}("");
+        require(sent, "Failed to withdraw");
     }
 
     /// @notice User can buy Orange from this pool
     /// @dev    Buys Orange with user's ETH in this pool
-    /// @param  _swapAmount ETH amount to buy Orange tokens
+    /// @param  swapAmount ETH amount to buy Orange tokens
     /// @return success for successful transaction
-    function buyOrange(uint256 _swapAmount) public returns (bool) {
-        require(_swapAmount <= getBalance(), "Overdrawn");
+    function buyOrange(uint256 swapAmount) public payable returns (bool) {
+        require(swapAmount <= getBalance(), "Overdrawn");
 
-        balances[msg.sender] -= _swapAmount;
-        totalContractBalance -= _swapAmount;
+        balances[msg.sender] -= swapAmount;
+        totalContractBalance -= swapAmount;
 
         Orange o = Orange(orange);
-        o._mint(msg.sender, _swapAmount);
+        o.mint(msg.sender, swapAmount);
 
         return true;
     }

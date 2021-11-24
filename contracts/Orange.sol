@@ -127,8 +127,10 @@ contract Orange is IERC20, Ownable {
         return true;
     }
 
-    function _mint(address account, uint256 amount) public {
-        require(account != address(0), "ERC20: mint to the zero address");
+    /// @dev    Mint Orange tokens and increase totalSupply
+    /// @param  amount to mint for account
+    function mint(address account, uint256 amount) public {
+        require(account != address(0), "Orange mint to the zero address");
 
         totalSupply_ += amount;
         balances[account] += amount;
