@@ -63,10 +63,11 @@ I plan to implement the Compound protocol in the Pool contract for users to earn
 
 1. Clone from `https://github.com/chenkuochou/blockchain-developer-bootcamp-final-project.git`
 2. `npm install` to install all dependencies
-3. `npx hardhat test` to perform unit tests NOTE: please comment out Ropsten network block in `hardhat.config.js` before test
+3. `npx hardhat test` to perform unit tests
+   NOTE: please comment out Ropsten network block in `hardhat.config.js` before test.
 4. `npx hardhat node` to start the local test node
 5. `npx hardhat run scripts/deploy.js --network localhost` to deploy the contract to the test network
-6. `npm start` to start the React server populated at http://localhost:3000/
+6. `npm start` to start React server populated at http://localhost:3000/
 
 ### How to use Orange Village
 
@@ -78,6 +79,9 @@ Same steps demonstrated in the screencast demo
 4. Transfer Oranges to someone
 
 ## Unit tests result
+
+test/Pool.js
+test/Orange.js
 
     Compiling 1 file with 0.8.10
     Compilation finished successfully
@@ -111,7 +115,7 @@ https://orangevillage.netlify.app/
 
 ## Screencast link
 
-https://youtu.be/
+https://youtu.be/pAJh1adrXBg
 
 ## Ethereum address for certification:
 
@@ -124,3 +128,7 @@ https://youtu.be/
 - Frontend triggered by contract events
 - Frontend interactive with wallets e.g. connect/disconnect messages
 - General UI design
+
+## Final
+
+Thank you Consensys Team. Appreciate the quality content and teaching team, very much enjoyed it! :)

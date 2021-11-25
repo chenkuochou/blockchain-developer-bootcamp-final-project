@@ -6,14 +6,14 @@ import Pool from './artifacts/contracts/Pool.sol/Pool.json'
 import Token from './artifacts/contracts/Orange.sol/Orange.json'
 
 // Ropsten
-// const orangeAddress = '0xA99cAc3717b6a19D55cf331B9ebF455daf1aa09B'
-// const poolAddress = '0x91e288939E219A2cD72D6570b7Bcc6AC52d3Fc8A'
+const poolAddress = '0x1b659bb3879912F1513Cb5041edf9B37e83a0e58'
+const orangeAddress = '0xf5d18213f01Be86CA8809A84334a2917479652bf'
 // Localhost
-const poolAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
-const orangeAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+// const poolAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+// const orangeAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
 function App() {
-  const [showPool, setShowPool] = useState(0)
+  //const [showPool, setShowPool] = useState(0)
   const [poolValue, setPoolValue] = useState('')
   const [withdrawAmount, setWithdrawAmount] = useState('')
 
@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
     const init = async () => {
-      getPoolBalance()
+      //getPoolBalance()
       getTokenBalance()
     }
     init()
@@ -35,17 +35,17 @@ function App() {
     await window.ethereum.request({ method: 'eth_requestAccounts' })
   }
 
-  async function getPoolBalance() {
-    if (typeof window.ethereum !== 'undefined') {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const contract = new ethers.Contract(poolAddress, Pool.abi, provider)
-      const data = await contract.getBalance()
-      // const amount = ethers.utils.formatEther(data)
+  // async function getPoolBalance() {
+  //   if (typeof window.ethereum !== 'undefined') {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum)
+  //     const contract = new ethers.Contract(poolAddress, Pool.abi, provider)
+  //     const data = await contract.getBalance()
+  //     // const amount = ethers.utils.formatEther(data)
 
-      console.log('Pool balance: ', data.toString())
-      setShowPool(data.toString())
-    }
-  }
+  //     console.log('Pool balance: ', data.toString())
+  //     setShowPool(data.toString())
+  //   }
+  // }
 
   async function addToPool() {
     if (!poolValue) return
@@ -56,13 +56,13 @@ function App() {
       const contract = new ethers.Contract(poolAddress, Pool.abi, signer)
       // const amount = ethers.utils.parseEther(poolValue)
       const transaction = await contract.addBalance(poolValue, {
-        value: ethers.utils.parseEther(poolValue, 'wei'),
+        value: ethers.utils.parseUnits(poolValue, 'wei'),
       })
 
       await transaction.wait()
-      console.log(`${poolValue} Ethers (in wei) are successfully added.`)
+      //console.log(`${poolValue} Ethers (in wei) are successfully added.`)
       setPoolValue('')
-      getPoolBalance()
+      //getPoolBalance()
     }
   }
 
@@ -75,15 +75,15 @@ function App() {
       const contract = new ethers.Contract(poolAddress, Pool.abi, signer)
       // const amount = ethers.utils.parseEther(withdrawAmount)
       const transaction = await contract.withdraw(withdrawAmount, {
-        value: ethers.utils.parseEther(withdrawAmount, 'wei'),
+        value: ethers.utils.parseUnits(withdrawAmount, 'wei'),
       })
 
       await transaction.wait()
-      console.log(
-        `${withdrawAmount} Ethers (in wei) are successfully withdrawn.`,
-      )
+      // console.log(
+      //   `${withdrawAmount} Ethers (in wei) are successfully withdrawn.`,
+      // )
       setWithdrawAmount('')
-      getPoolBalance()
+      //getPoolBalance()
     }
   }
 
@@ -97,9 +97,9 @@ function App() {
       const transaction = await contract.buyOrange(buyAmount)
 
       await transaction.wait()
-      console.log(`${buyAmount} orange(s) are successfully bought.`)
+      //console.log(`${buyAmount} orange(s) are successfully bought.`)
       setBuyAmount('')
-      getPoolBalance()
+      //getPoolBalance()
       getTokenBalance()
     }
   }
@@ -113,7 +113,7 @@ function App() {
       const contract = new ethers.Contract(orangeAddress, Token.abi, provider)
       const balance = await contract.balanceOf(account)
 
-      console.log('Orange balance: ', balance.toString())
+      //console.log('Orange balance: ', balance.toString())
       setShowToken(balance.toString())
     }
   }
@@ -147,7 +147,7 @@ function App() {
         }}
       >
         <h2>Welcome to Orange Village!</h2>
-        <p>Your Pool ETH Balance: {showPool}</p>
+        {/* <p>Your Pool ETH Balance: {showPool}</p> */}
         {/* <button onClick={getPoolBalance}>Your Pool Balance</button> */}
         <input
           onChange={(e) => setPoolValue(e.target.value)}
