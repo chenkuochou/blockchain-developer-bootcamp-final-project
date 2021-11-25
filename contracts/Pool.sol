@@ -2,14 +2,13 @@
 pragma solidity 0.8.10;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Orange.sol";
 
 /// @title  A conotract to depoit and withdraw ETH
 /// @author Chen-kuo Chou
 /// @notice Depoits, withdraws and check ETH balance
 /// @dev    A simple bank that safely processes payments
-contract Pool is Ownable {
+contract Pool {
     /// @dev Sets up intitial contract balance to be 0
     uint256 totalContractBalance = 0;
 
@@ -48,7 +47,7 @@ contract Pool is Ownable {
 
     /// @notice User add ETH in this pool
     /// @param  withdrawAmount ETH amount to add
-    function withdraw(uint256 withdrawAmount) public payable onlyOwner {
+    function withdraw(uint256 withdrawAmount) public payable {
         require(withdrawAmount <= getBalance(), "Overdrawn");
         balances[msg.sender] -= withdrawAmount;
         totalContractBalance -= withdrawAmount;
@@ -61,7 +60,7 @@ contract Pool is Ownable {
     /// @dev    Buys Orange with user's ETH in this pool
     /// @param  swapAmount ETH amount to buy Orange tokens
     /// @return success for successful transaction
-    function buyOrange(uint256 swapAmount) public onlyOwner returns (bool) {
+    function buyOrange(uint256 swapAmount) public returns (bool) {
         require(swapAmount <= getBalance(), "Overdrawn");
 
         balances[msg.sender] -= swapAmount;

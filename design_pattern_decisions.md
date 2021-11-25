@@ -7,7 +7,3 @@ Pool contract calls Orange contract by import `./Orange.sol` and initialise Oran
 ## Inheritance and Interfaces
 
 Orange contract inherit IERC20 interface clone from @OpenZeppelin, and overides those functions except `mint`.
-
-## Access Control Design Patterns
-
-Pool contract uses @OpenZeppelin Ownable `onlyOwner` modifiers for `withdraw` and `buyOrange` functions to limit accessibility.

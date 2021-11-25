@@ -11,10 +11,6 @@ Both `Pool` and `Orange` contracts use `require()` construct to validate legit e
 - Pool `withdraw` function uses `require(_withdrawAmount <= getBalance(), "Overdrawn");`, and
 - Orange `mint` function uses `require(account != address(0), "Orange mint to the zero address");`
 
-## SWC-105 Unprotected Ether Withdrawal
-
-`withdraw` is used with OpenZeppelin Ownable `onlyOwner` modifier
-
 ## Checks-Effects-Interactions & Proper use of .call and .delegateCall
 
 `withdraw` function in Pool:
