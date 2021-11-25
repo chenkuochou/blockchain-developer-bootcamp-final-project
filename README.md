@@ -62,10 +62,20 @@ I plan to implement the Compound protocol in the Pool contract for users to earn
 ### Instructions
 
 1. Clone from `https://github.com/chenkuochou/blockchain-developer-bootcamp-final-project.git`
-`npm install` to install all dependencies
+2. `npm install` to install all dependencies
+3. `npx hardhat test` to perform unit tests NOTE: please comment out Ropsten network block in `hardhat.config.js` before test
+4. `npx hardhat node` to start the local test node
+5. `npx hardhat run scripts/deploy.js --network localhost` to deploy the contract to the test network
+6. `npm start` to start the React server populated at http://localhost:3000/
 
-`npm start` to start the React server populated at http://localhost:3000/ 
-4.
+### How to use Orange Village
+
+Same steps demonstrated in the screencast demo
+
+1. Deposit 22 ETH in wei
+2. Withdraw 2 ETH in wei (20 ETH in wei left)
+3. Buy 10 Oranges from the pool
+4. Transfer Oranges to someone
 
 ## Unit tests result
 
