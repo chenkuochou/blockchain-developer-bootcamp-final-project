@@ -61,9 +61,10 @@ I plan to implement the Compound protocol in the Pool contract for users to earn
 
 ### Instructions
 
-1. `npx create-react-app testFolder`
-2. `cd testFolder`
-3. Clone from `https://github.com/chenkuochou/blockchain-developer-bootcamp-final-project.git`
+1. Clone from `https://github.com/chenkuochou/blockchain-developer-bootcamp-final-project.git`
+`npm install` to install all dependencies
+
+`npm start` to start the React server populated at http://localhost:3000/ 
 4.
 
 ## Unit tests result
