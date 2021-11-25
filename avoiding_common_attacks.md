@@ -8,8 +8,8 @@ Both `Pool` and `Orange` contracts use fixed floating pragma `0.8.10`
 
 Both `Pool` and `Orange` contracts use `require()` construct to validate legit external inputs e.g.
 
-- `Pool` `withdraw` function uses `require(_withdrawAmount <= getBalance(), "Overdrawn");`, and
-- `Orange` `mint` function uses `require(account != address(0), "Orange mint to the zero address");`
+- Pool `withdraw` function uses `require(_withdrawAmount <= getBalance(), "Overdrawn");`, and
+- Orange `mint` function uses `require(account != address(0), "Orange mint to the zero address");`
 
 ## SWC-105 Unprotected Ether Withdrawal
 
@@ -17,7 +17,7 @@ Both `Pool` and `Orange` contracts use `require()` construct to validate legit e
 
 ## Checks-Effects-Interactions & Proper use of .call and .delegateCall
 
-`withdraw` function in `Pool`:
+`withdraw` function in Pool:
 
 1. check `require(withdrawAmount <= getBalance(), "Overdrawn")`
 2. process withdraw by deducting user's and contract balances

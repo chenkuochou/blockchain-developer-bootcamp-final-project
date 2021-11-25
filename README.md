@@ -1,22 +1,20 @@
-# Consensys blockchain developer bootcamp final project
+# Consensys blockchain final project
 
-Orange village: A simple bank plus Orange token (ERC20)
+Orange Village: An Orange token (ERC20) bank
 
-## Project description
+Structurally, Orange Village consists of two contracts `Pool` a simple bank and `Orange` ERC20 with a feature to buy Orange tokens from Pool at frontend.
 
-This project contains two smart contracts: a simple bank (Pool.sol) and ERC20 token (Orange.sol).  
-For Pool.sol, user can:
+Pool contract can:
 
 - Deposit ETH
 - Withdraw ETH
 - Check total pool balance
 - Check caller's balance
+- Buy Orange tokens (by deducting caller's balance)
 
-For Orange.sol, user can:
+Orange inherits basic ERC20 standards with `totalSupply()` `balanceOf` `transfer` `allowance` `approve` `transferFrom` and one extra `mint` functions.
 
-- Check total Orange balance
-- Check caller's Orange balance
-- Deposit, withdraw, allowance and transfer Orange (frontend not ready)
+The idea of Orange Village is to encourage users to deposit ETH into the pool and earn interests (not yet implemented) and buy Orange tokens from the pool.
 
 ## Directory structure
 
@@ -48,7 +46,7 @@ For Orange.sol, user can:
 
 -
 
-### How to populate locally deployed contract with listings
+### How to populate locally deployed contracts with listings
 
 -
 
@@ -61,3 +59,11 @@ https://youtu.be/
 ## Ethereum address for certification:
 
 `0xc737AF9C35498abe6b2BAd27eED85E2EfBb7F0A1`
+
+## Things to improve
+
+- Pool contract built-in interests earning from Compound protocol
+- Orange ERC20 completion e.g. security and functionality
+- Frontend triggered by contract events
+- Frontend interactive with wallets e.g. connect/disconnect messages
+- General UI design
