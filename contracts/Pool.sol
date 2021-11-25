@@ -32,11 +32,11 @@ contract Pool is Ownable {
     }
 
     /// @notice User add ETH in this pool
-    /// @param  _amount ETH amount to add
+    /// @param  amount ETH amount to add
     /// @return True for successful transaction
-    function addBalance(uint256 _amount) public payable returns (bool) {
-        balances[msg.sender] += _amount;
-        totalContractBalance += _amount;
+    function addBalance(uint256 amount) public payable returns (bool) {
+        balances[msg.sender] += amount;
+        totalContractBalance += amount;
         return true;
     }
 
@@ -47,13 +47,13 @@ contract Pool is Ownable {
     }
 
     /// @notice User add ETH in this pool
-    /// @param  _withdrawAmount ETH amount to add
-    function withdraw(uint256 _withdrawAmount) public payable {
-        require(_withdrawAmount <= getBalance(), "Overdrawn");
-        balances[msg.sender] -= _withdrawAmount;
-        totalContractBalance -= _withdrawAmount;
+    /// @param  withdrawAmount ETH amount to add
+    function withdraw(uint256 withdrawAmount) public payable onlyOwner {
+        require(withdrawAmount <= getBalance(), "Overdrawn");
+        balances[msg.sender] -= withdrawAmount;
+        totalContractBalance -= withdrawAmount;
 
-        (bool sent, ) = msg.sender.call{value: _withdrawAmount}("");
+        (bool sent, ) = msg.sender.call{value: withdrawAmount}("");
         require(sent, "Failed to withdraw");
     }
 
@@ -61,7 +61,7 @@ contract Pool is Ownable {
     /// @dev    Buys Orange with user's ETH in this pool
     /// @param  swapAmount ETH amount to buy Orange tokens
     /// @return success for successful transaction
-    function buyOrange(uint256 swapAmount) public returns (bool) {
+    function buyOrange(uint256 swapAmount) public onlyOwner returns (bool) {
         require(swapAmount <= getBalance(), "Overdrawn");
 
         balances[msg.sender] -= swapAmount;
@@ -73,6 +73,6 @@ contract Pool is Ownable {
         return true;
     }
 
-    /// @dev    a fallback function
+    /// @dev    fallback function
     receive() external payable {}
 }

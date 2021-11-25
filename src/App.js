@@ -6,14 +6,14 @@ import Pool from './artifacts/contracts/Pool.sol/Pool.json'
 import Token from './artifacts/contracts/Orange.sol/Orange.json'
 
 // Ropsten
-const orangeAddress = '0xA99cAc3717b6a19D55cf331B9ebF455daf1aa09B'
-const poolAddress = '0x91e288939E219A2cD72D6570b7Bcc6AC52d3Fc8A'
+// const orangeAddress = '0xA99cAc3717b6a19D55cf331B9ebF455daf1aa09B'
+// const poolAddress = '0x91e288939E219A2cD72D6570b7Bcc6AC52d3Fc8A'
 // Localhost
-// const orangeAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-// const poolAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+const poolAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+const orangeAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
 function App() {
-  // const [showPool, setShowPool] = useState(0)
+  const [showPool, setShowPool] = useState(0)
   const [poolValue, setPoolValue] = useState('')
   const [withdrawAmount, setWithdrawAmount] = useState('')
 
@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
     const init = async () => {
-      // getPoolBalance()
+      getPoolBalance()
       getTokenBalance()
     }
     init()
@@ -43,7 +43,7 @@ function App() {
       // const amount = ethers.utils.formatEther(data)
 
       console.log('Pool balance: ', data.toString())
-      // setShowPool(data.toString())
+      setShowPool(data.toString())
     }
   }
 
@@ -62,7 +62,7 @@ function App() {
       await transaction.wait()
       console.log(`${poolValue} Ethers (in wei) are successfully added.`)
       setPoolValue('')
-      // getPoolBalance()
+      getPoolBalance()
     }
   }
 
@@ -83,7 +83,7 @@ function App() {
         `${withdrawAmount} Ethers (in wei) are successfully withdrawn.`,
       )
       setWithdrawAmount('')
-      // getPoolBalance()
+      getPoolBalance()
     }
   }
 
@@ -113,8 +113,8 @@ function App() {
       const contract = new ethers.Contract(orangeAddress, Token.abi, provider)
       const balance = await contract.balanceOf(account)
 
-      // console.log('Orange balance: ', balance.toString())
-      // setShowToken(balance.toString())
+      console.log('Orange balance: ', balance.toString())
+      setShowToken(balance.toString())
     }
   }
 
@@ -147,7 +147,7 @@ function App() {
         }}
       >
         <h2>Welcome to Orange Village!</h2>
-        {/* <p>Your Pool ETH Balance: {showPool}</p> */}
+        <p>Your Pool ETH Balance: {showPool}</p>
         {/* <button onClick={getPoolBalance}>Your Pool Balance</button> */}
         <input
           onChange={(e) => setPoolValue(e.target.value)}

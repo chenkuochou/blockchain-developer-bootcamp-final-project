@@ -2,7 +2,6 @@
 pragma solidity 0.8.10;
 
 import "hardhat/console.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @notice Build the backbone for ERC20 tokens
 /// @dev    Interface clone from https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol
@@ -40,16 +39,19 @@ interface IERC20 {
 /// @author Chen-kuo Chou
 /// @notice An ERC20 conotract to create and process Orange tokens
 /// @dev    Orange is ERC20Basic
-contract Orange is IERC20, Ownable {
+contract Orange is IERC20 {
     string public name = "Orange";
     string public symbol = "OGE";
     uint8 public decimals = 0;
-    //uint256 public  totalSupply = 1000000;
 
+    /// @dev    Returns user Orange balance
     mapping(address => uint256) balances;
+    /// @dev    Returns the amount that the deligate allows to spend
     mapping(address => mapping(address => uint256)) allowed;
+    /// @dev    Returns the total suppplied Orange tokens, can be increased by 'mint'
     uint256 totalSupply_;
 
+    /// @dev    Sets up initial total supply to be 1000000
     constructor() {
         totalSupply_ = 1000000;
         balances[msg.sender] = totalSupply_;
